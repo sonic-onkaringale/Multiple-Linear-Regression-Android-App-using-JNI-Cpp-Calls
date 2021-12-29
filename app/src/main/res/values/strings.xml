@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">cpp</string>
+    <string name="app_name">Multiple Linear Regression</string>
     <string name="page_title">Machine Learning</string>
     <string name="title_activity_csv_dashboard">Csv_dashboard</string>
     <!-- Strings used for fragments for navigation -->

@@ -1,7 +1,4 @@
-package com.example.cpp;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.onkaringale.multilinearreg;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,10 +6,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
+
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cpp.R;
 import com.example.cpp.databinding.ActivityMainBinding;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +25,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Used to load the 'cpp' library on application startup.
-//    static {
-//        System.loadLibrary("cpp");
-//    }
 
     public static final int myrequestCode = 1014;
     private ActivityMainBinding binding;
@@ -39,16 +38,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Example of a call to a native method
-//        TextView tv = binding.sampleText;
-//        tv.setText(stringFromJNI());
         Button fcbtn = (Button) findViewById(R.id.choosefilebtn);
         fcbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent choosefile = new Intent(Intent.ACTION_GET_CONTENT);
                 choosefile.addCategory(Intent.CATEGORY_OPENABLE);
-                choosefile.setType("*/*");
+                choosefile.setType("text/comma-separated-values");
                 choosefile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivityForResult(Intent.createChooser(choosefile, "Open CSV"), myrequestCode);
 
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                             intent_csvdashb.putExtra( ("row_"+i),dataset.get(i));
                         }
                         startActivity(intent_csvdashb);
-                    } catch (IOException e) {
+                    } catch (IOException | CsvException e) {
                         e.printStackTrace();
                     }
 
@@ -88,9 +84,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * A native method that is implemented by the 'cpp' native library,
-     * which is packaged with this application.
-     */
-//    public native String stringFromJNI();
+
 }

@@ -1,4 +1,4 @@
-package com.example.cpp;
+package com.onkaringale.multilinearreg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.cpp.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

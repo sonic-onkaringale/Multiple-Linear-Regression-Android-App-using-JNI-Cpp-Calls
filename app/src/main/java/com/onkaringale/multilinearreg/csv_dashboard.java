@@ -1,21 +1,20 @@
-package com.example.cpp;
+package com.onkaringale.multilinearreg;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cpp.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
@@ -28,96 +27,139 @@ public class csv_dashboard extends AppCompatActivity {
     }
     public boolean[] x_state,y_state;
 
-    public class CustomAdapter_x extends ArrayAdapter<String>
+    public class RCustomAdapter_x extends RecyclerView.Adapter<RCustomAdapter_x.ViewHolder>
     {
 
         private String[] headers;
 
-
-        public CustomAdapter_x(@NonNull Context context, int resource, @NonNull String[] objects) {
-            super(context, resource, objects);
-            this.headers = objects;
+        RCustomAdapter_x(String[] obj)
+        {
+            this.headers = obj;
         }
 
-        @Nullable
-        @Override
-        public String getItem(int position) {
-            return headers[position];
+        public class ViewHolder extends RecyclerView.ViewHolder
+        {
+            private SwitchMaterial switchMaterial ;
+
+            public ViewHolder(@NonNull View itemView) {
+
+                super(itemView);
+                switchMaterial = (SwitchMaterial) itemView.findViewById(R.id.switch1);
+            }
+
+            public SwitchMaterial getSwitchMaterial()
+            {
+                return switchMaterial;
+            }
         }
+
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.checklist_adapt, parent, false);
-            SwitchMaterial switchMaterial = convertView.findViewById(R.id.switch1);
-            switchMaterial.setText(getItem(position));
-            switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view  = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.checklist_adapt,parent,false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+        {
+            holder.getSwitchMaterial().setText(headers[position]);
+            holder.getSwitchMaterial().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked)
                     {
-                        x_state[position] = true;
+                        x_state[holder.getAdapterPosition()] = true;
                     }
                     else
                     {
-                        x_state[position] = false;
+                        x_state[holder.getAdapterPosition()] = false;
                     }
                 }
             });
-
-            return convertView;
         }
+
+        @Override
+        public int getItemCount() {
+            return headers.length;
+        }
+
+
     }
 
-    public class CustomAdapter_y extends ArrayAdapter<String>
+    public class RCustomAdapter_y extends RecyclerView.Adapter<RCustomAdapter_y.ViewHolder>
     {
+
         private String[] headers;
 
-        public CustomAdapter_y(@NonNull Context context, int resource, @NonNull String[] objects) {
-            super(context, resource, objects);
-            this.headers = objects;
+        RCustomAdapter_y(String[] obj)
+        {
+            this.headers = obj;
         }
 
-        @Nullable
-        @Override
-        public String getItem(int position) {
-            return headers[position];
+        public class ViewHolder extends RecyclerView.ViewHolder
+        {
+            private SwitchMaterial switchMaterial ;
+
+            public ViewHolder(@NonNull View itemView) {
+
+                super(itemView);
+                switchMaterial = (SwitchMaterial) itemView.findViewById(R.id.switch1);
+            }
+
+            public SwitchMaterial getSwitchMaterial()
+            {
+                return switchMaterial;
+            }
         }
+
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.checklist_adapt, parent, false);
-            SwitchMaterial switchMaterial = convertView.findViewById(R.id.switch1);
-            switchMaterial.setText(getItem(position));
-            switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view  = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.checklist_adapt,parent,false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+        {
+            holder.getSwitchMaterial().setText(headers[position]);
+            holder.getSwitchMaterial().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked)
                     {
-                        y_state[position] = true;
+                        y_state[holder.getAdapterPosition()] = true;
                     }
                     else
                     {
-                        y_state[position] = false;
+                        y_state[holder.getAdapterPosition()] = false;
                     }
                 }
             });
-
-            return convertView;
         }
+
+        @Override
+        public int getItemCount() {
+            return headers.length;
+        }
+
+
     }
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_csv_dashboard);
-        ListView listView_x = findViewById(R.id.lv_x);
-        ListView listView_y = findViewById(R.id.lv_y);
 
+        RecyclerView recyclerView_x = findViewById(R.id.lv_x);
+
+        RecyclerView recyclerView_y = findViewById(R.id.lv_y);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
@@ -135,10 +177,12 @@ public class csv_dashboard extends AppCompatActivity {
             x_state[i] = false;
             y_state[i] = false;
         }
-        CustomAdapter_x customAdapterX = new CustomAdapter_x(this,R.layout.checklist_adapt,header);
-        CustomAdapter_y customAdapterY = new CustomAdapter_y(this,R.layout.checklist_adapt,header);
-        listView_x.setAdapter(customAdapterX);
-        listView_y.setAdapter(customAdapterY);
+        RCustomAdapter_x rCustomAdapter_x = new RCustomAdapter_x(header);
+        RCustomAdapter_y rCustomAdapter_y = new RCustomAdapter_y(header);
+        recyclerView_x.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_y.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_x.setAdapter(rCustomAdapter_x);
+        recyclerView_y.setAdapter(rCustomAdapter_y);
         Button train_btn = (Button) findViewById(R.id.trainbtn);
         train_btn.setOnClickListener(new View.OnClickListener() {
             @Override

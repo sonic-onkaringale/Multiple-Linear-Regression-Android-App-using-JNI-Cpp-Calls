@@ -5,43 +5,23 @@
 #include <string>
 using namespace std;
 using namespace matrix;
-extern "C" JNIEXPORT jstring JNICALL
 
-
-
-Java_com_example_cpp_MainActivity_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */)
-{
-    std::string hello = "Hello from C++";
-
-
-    Matrix<long double> print (3,3,1);
-    string p;
-    for (int i = 0; i < print.rows(); ++i) {
-        for (int j = 0; j < print.cols(); ++j) {
-            p += " " + to_string(print[i][j]);
-        }
-        p+= "\n";
-    }
-
-    return env->NewStringUTF(p.c_str());
-}
 
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_example_cpp_csv_1dashboard_stringarrayfromJNI(JNIEnv *env,jobject thiz,jint rows,jint cols,jobject jdataset) {
-    // TODO: implement stringarrayfromJNI()
+Java_com_onkaringale_multilinearreg_csv_1dashboard_stringarrayfromJNI(JNIEnv *env, jobject thiz,
+                                                                      jint rows, jint cols,
+                                                                      jobject jdataset) {
+
     vector<string> dataset;
     jclass cList = env->FindClass("java/util/List");
     jmethodID mSize = env->GetMethodID(cList, "size", "()I");
     jmethodID mGet = env->GetMethodID(cList, "get", "(I)Ljava/lang/Object;");
     jint size = env->CallIntMethod(jdataset, mSize);
-    for (jint i = 0; i < size; ++i)
-    {
-        jstring strObj = (jstring)env->CallObjectMethod(jdataset, mGet, i);
-        const char * chr = env->GetStringUTFChars(strObj, NULL);
+    for (jint i = 0; i < size; ++i) {
+        jstring strObj = (jstring) env->CallObjectMethod(jdataset, mGet, i);
+        const char *chr = env->GetStringUTFChars(strObj, NULL);
         dataset.emplace_back(chr);
         env->ReleaseStringUTFChars(strObj, chr);
     }
