@@ -10,4 +10,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="r_squared_score">R-Squared Score</string>
+    <string name="enter_data_n_using_comma_sepration_n_if_applicable">Enter Data\n using Comma Sepration \n(if Applicable)</string>
+    <string name="answer">Answer</string>
+    <string name="predict">Predict</string>
 </resources>

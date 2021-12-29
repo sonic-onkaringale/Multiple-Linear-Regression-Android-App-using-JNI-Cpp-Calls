@@ -2,11 +2,13 @@ package com.onkaringale.multilinearreg;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    VideoView videoView;
 
     public static final int myrequestCode = 1014;
     private ActivityMainBinding binding;
@@ -37,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        videoView = (VideoView) findViewById(R.id.videoview);
+        String vpath = "android.resource://" + getPackageName() + "/" + R.raw.intro;
+        videoView.setVideoURI(Uri.parse(vpath));
+//        MediaController mediaController;
+//        mediaController = new MediaController(MainActivity.this);
+//        mediaController.setAnchorView(videoView);
+//        videoView.setMediaController(mediaController);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setVolume(0f,0f);
+                mp.setLooping(true);
+            }
+        });
+        videoView.start();
 
         Button fcbtn = (Button) findViewById(R.id.choosefilebtn);
         fcbtn.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(videoView != null)
+        {
+            videoView.start();
+        }
     }
 
     @Override
