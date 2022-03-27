@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textColor = "@color/white"
 
     tools:context="com.onkaringale.multilinearreg.csv_dashboard">
 
@@ -31,11 +32,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:text="X_Train"
+        android:textSize="30sp"
+        android:text="X"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor = "@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lv_x"
@@ -48,7 +50,8 @@
         android:dividerHeight="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/head_x" />
+        app:layout_constraintTop_toBottomOf="@id/head_x"
+        />
 
     <TextView
         android:id="@+id/head_y"
@@ -57,11 +60,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:text="Y_Train"
+        android:textSize="30sp"
+        android:text="Y"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lv_x" />
+        app:layout_constraintTop_toBottomOf="@id/lv_x"
+        android:textColor = "@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lv_y"

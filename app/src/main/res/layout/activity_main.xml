@@ -15,11 +15,13 @@
             app:layout_constraintTop_toTopOf="parent"
             >
 
-            <VideoView
+            <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/videoview"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                app:resize_mode="fixed_width"
+
                 />
 
 
