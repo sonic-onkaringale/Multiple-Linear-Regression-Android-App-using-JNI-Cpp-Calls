@@ -32,69 +32,23 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="200dp"
-                android:text="CHOOSE A CSV FILE"
+                android:text="@string/choose_a_csv_file"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Name" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/textView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Build\nby\nOnkar Ingale"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textSize="20sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/choosefilebtn" />-->
+            <ProgressBar
+                android:id="@+id/progressBarmain"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
 
 </ScrollView>
 
-<!--<androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent">-->
-
-<!--<com.google.android.material.appbar.AppBarLayout-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="wrap_content">-->
-
-<!--<com.google.android.material.appbar.MaterialToolbar-->
-<!--    android:id="@+id/topAppBar"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="?attr/actionBarSize"-->
-<!--    app:title="@string/page_title"-->
-<!--    style="@style/Widget.MaterialComponents.Toolbar.Primary"-->
-<!--    />-->
-<!--&lt;!&ndash;    app:menu="@menu/top_app_bar"&ndash;&gt;-->
-<!--&lt;!&ndash;    app:navigationIcon="@drawable/ic_menu_24dp"&ndash;&gt;-->
-
-
-<!--</com.google.android.material.appbar.AppBarLayout>-->
-
-<!--    &lt;!&ndash; Note: A RecyclerView can also be used &ndash;&gt;-->
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:id="@+id/nestedScrollView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-<!--        &lt;!&ndash; Scrollable content &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/sample_text"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Hello World!"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-
-<!--    </androidx.core.widget.NestedScrollView>-->
-
-<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->

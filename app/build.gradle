@@ -10,8 +10,8 @@ android {
         applicationId "com.onkaringale.multilinearreg"
         minSdk 26
         targetSdk 31
-        versionCode 5
-        versionName "5.0 Éclair"
+        versionCode 9
+        versionName "6.0 Fruitcake"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {

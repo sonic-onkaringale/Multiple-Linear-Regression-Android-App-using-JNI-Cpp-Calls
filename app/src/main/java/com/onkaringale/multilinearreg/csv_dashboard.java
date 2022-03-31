@@ -1,16 +1,23 @@
 package com.onkaringale.multilinearreg;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +25,9 @@ import com.example.cpp.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class csv_dashboard extends AppCompatActivity {
 
@@ -26,6 +36,7 @@ public class csv_dashboard extends AppCompatActivity {
         System.loadLibrary("cpp");
     }
     public boolean[] x_state,y_state;
+
 
     public class RCustomAdapter_x extends RecyclerView.Adapter<RCustomAdapter_x.ViewHolder>
     {
@@ -157,19 +168,21 @@ public class csv_dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_csv_dashboard);
 
-        RecyclerView recyclerView_x = findViewById(R.id.lv_x);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.INVISIBLE);
 
+
+        RecyclerView recyclerView_x = findViewById(R.id.lv_x);
         RecyclerView recyclerView_y = findViewById(R.id.lv_y);
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
 
-        int dataset_size = intent.getIntExtra("size",0);
-        ArrayList<String[]> dataset = new ArrayList<>();
 
-        for (int i = 0; i < dataset_size; i++)
-        {
-            dataset.add(bundle.getStringArray(("row_"+i)));
-        }
+        Globals globals = (Globals)getApplication();
+
+        List<String[]> dataset = globals.getDataset();
+
+
+
         String[] header = dataset.get(0);
         x_state = new boolean[header.length];
         y_state = new boolean[header.length];
@@ -222,38 +235,70 @@ public class csv_dashboard extends AppCompatActivity {
                     return;
                 }
                 Toast.makeText(getApplicationContext(),"Your Model is being Trained",Toast.LENGTH_SHORT).show();
-                ArrayList<Integer> dataset_iterator = new ArrayList<>();
-                for (int i = 0; i < x_state.length; i++) 
-                {
-                    if (x_state[i])
-                        dataset_iterator.add(i);
-                }
-                for (int i = 0; i < y_state.length; i++)
-                {
-                    if (y_state[i])
-                        dataset_iterator.add(i);
-                }
-                
-                ArrayList<String> forward_dataset = new ArrayList<>();
-                for (int i = 0; i < dataset.size(); i++)
-                {
-                    for (int j: dataset_iterator)
-                    {
-                        forward_dataset.add(dataset.get(i)[j]);
-                    }
-                }
-                String[] output = new String[dataset_iterator.size()+1]; //R2 Score + B0 + BnXi
-                output = stringarrayfromJNI(dataset.size(),dataset_iterator.size(),forward_dataset);
-                Toast.makeText(getApplicationContext(),"Model Trained Successfully",Toast.LENGTH_SHORT).show();
-                if (output != null)
-                {
-                    Intent result = new Intent(csv_dashboard.this,Final.class);
 
-                    result.putExtra("result",output);
-                    result.putExtra("header",header);
-                    result.putExtra("header_order",dataset_iterator);
-                    startActivity(result);
-                }
+                //Splash Loading Needed
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //Background work here
+                        ArrayList<Integer> dataset_iterator = new ArrayList<>();
+                        for (int i = 0; i < x_state.length; i++)
+                        {
+                            if (x_state[i])
+                                dataset_iterator.add(i);
+                        }
+                        for (int i = 0; i < y_state.length; i++)
+                        {
+                            if (y_state[i])
+                                dataset_iterator.add(i);
+                        }
+
+                        ArrayList<String> forward_dataset = new ArrayList<>();
+                        for (int i = 0; i < dataset.size(); i++)
+                        {
+                            for (int j: dataset_iterator)
+                            {
+                                forward_dataset.add(dataset.get(i)[j]);
+                            }
+                        }
+                        String[] output = new String[dataset_iterator.size()+1]; //R2 Score + B0 + BnXi
+                        output = stringarrayfromJNI(dataset.size(),dataset_iterator.size(),forward_dataset);
+
+                        if (output != null)
+                        {
+                            Intent result = new Intent(csv_dashboard.this,Final.class);
+                            globals.setOutput(output);
+                            globals.setHeader(header);
+                            globals.setHeader_order(dataset_iterator);
+
+
+                            startActivity(result);
+                        }
+
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //UI Thread work here
+                                Toast.makeText(getApplicationContext(),"Model Trained Successfully",Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
+
+
+                            }
+                        });
+                    }
+                });
+
+
+
+
 
             }
         });

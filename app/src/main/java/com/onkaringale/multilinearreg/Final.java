@@ -123,7 +123,6 @@ public class Final extends AppCompatActivity {
         setContentView(R.layout.activity_final);
         Intent intent = getIntent();
 
-        Bundle bundle = intent.getExtras();
 
         /*
             []output = [r2score,betas...]
@@ -131,24 +130,17 @@ public class Final extends AppCompatActivity {
             []header_order = [needed headers only with index] use: for 0 to ho.size() print(header[ho.get(i)])
 
          */
+        Globals globals= (Globals)getApplication();
 
-        String []output = bundle.getStringArray("result");
-        String []header = bundle.getStringArray("header");
-        ArrayList<Integer> header_order = (ArrayList<Integer>) bundle.getSerializable("header_order");
+        String []output = globals.getOutput();
+        String []header = globals.getHeader();
+        ArrayList<Integer> header_order = globals.getHeader_order();
 
         TextView r2score = findViewById(R.id.r2score);
         r2score.setText(("R-Squared Score\n"+output[0]));
-//        EditText editText = findViewById(R.id.predict_x);
         TextView answer = findViewById(R.id.predict_ans);
         Button predict = findViewById(R.id.predictbtn);
-//        StringBuilder eheader = new StringBuilder();
-//        for (int i = 0; i<header_order.size() -1;i++)
-//        {
-//            if (i == header_order.size()-2)
-//                eheader.append(header[header_order.get(i)]);
-//            eheader.append(header[header_order.get(i)]).append(", ");
-//        }
-//        editText.setText(eheader);
+
 
         String[] oheader = new String[header_order.size()-1];
         for (int i = 0; i<oheader.length;i++)
@@ -167,13 +159,7 @@ public class Final extends AppCompatActivity {
         predict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ArrayList<String> x = new ArrayList<>(Arrays.asList(editText.getText().toString().split(",")));
-//                String[] x = editText.getText().toString().split("\\s*,\\s*");
-//                if (x.length != output.length-2)
-//                {
-//                    Toast.makeText(getApplicationContext(),"Error: Wrong Input",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+
                 for (int i = 0; i < stored_values.length; i++) {
                     if (stored_values[i] == ("") ||stored_values[i]==null||stored_values[i].isEmpty())
                     {
